@@ -98,7 +98,7 @@ export default function Hero() {
 
           {/* GREEN STAR - left of text */}
           <SpinningStar
-            src="/images/star g.png"
+            src="/images/Star g.png"
             alt="green star"
             width={80}
             height={80}
@@ -107,7 +107,7 @@ export default function Hero() {
 
           {/* PINK STAR - upper right */}
           <SpinningStar
-            src="/images/star p.png"
+            src="/images/Star p.png"
             alt="pink star"
             width={100}
             height={100}
@@ -116,7 +116,7 @@ export default function Hero() {
 
           {/* YELLOW STAR - upper right, above pink */}
           <SpinningStar
-            src="/images/star y.png"
+            src="/images/Star y.png"
             alt="yellow star"
             width={80}
             height={80}
