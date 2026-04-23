@@ -2,12 +2,15 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import localFont from "next/font/local";
+import { Afacad } from "next/font/google";
 
 const windowsBold = localFont({
   src: "./fonts/Windows-Bold.ttf",
   variable: "--font-windows-bold",
   display: "swap",
 });
+
+const afacad = Afacad({ subsets: ["latin"] });
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,10 +33,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={windowsBold.variable}
-      >
+    <html lang="en" className={windowsBold.variable}>
+      <body className={afacad.className}>
         {children}
       </body>
     </html>

@@ -6,8 +6,9 @@
 :root {
   --color-bg: #070803;
   --color-bg2: #0c1a08;
-  --color-text-main: #85CD42;
+  --color-text-main: #6BC914;
   --color-text-hover: #D8ECD1;
+  --color-text-body: #2B8124;
   --color-glow: rgba(133, 205, 66, 0.6);
   --color-panel-border: #0f3d0f;
   --color-panel-inner: #0a2a0a;
@@ -19,7 +20,7 @@
 -------------------------------- */
 body {
   background-color: var(--color-bg);
-  color: var(--color-text-main);
+  color: var(--color-text-body);
 }
 
 /* -------------------------------

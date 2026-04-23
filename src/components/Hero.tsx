@@ -2,84 +2,85 @@ import Image from "next/image";
 
 export default function Hero() {
   return (
-    <section className="grid min-h-[871px] w-full place-items-center overflow-hidden bg-[var(--color-bg2)]">
-     {/* 2. THE INNER RECTANGLE */}
-      <div 
-        style={{ gridArea: "1/1" }} 
-        className="relative h-[783px] w-[1418px] shrink-0 overflow-hidden"
-      >
-        {/* The Image is now INSIDE this div */}
-        <Image
-          src="/images/gaus 1.png"
-          alt="greenhaus"
-          fill // This makes it fill the 1418x783 container exactly
-          className="object-cover" // Ensures the image doesn't stretch weirdly
-          priority
-        />
-      </div>
-      
-      {/* 3. THE WELCOME IMAGE */}
-            {/* Also placed in 1/1, so it sits directly on top of the rectangle */}
-            <div style={{ gridArea: "1/1" }} className="relative z-10">
-              <Image
-                src="/images/Welcome.png"
-                alt="Welcome"
-                width={716}
-                height={262}
-                priority
-              />
-            </div>
-      {/* --- CONTENT LAYER --- */}
-    {/* --- ACORN & ARROW SHORTCUT GROUP --- */}
-    <div className="
-        absolute 
-        z-20
-        left-[24px] top-[160px]
-        md:left-[157px] md:top-[441px]
-        
-    ">
-      {/* The Acorn (The main "Icon") */}
+    <section className="relative w-full min-h-[858px] bg-[var(--color-bg2)]">
+
+      {/* LAYER 1: HERO BORDER - base background */}
       <Image
-        src="/images/acorn.png"
-        alt="Acorn"
-        width={178}
-        height={212}
-        className="opacity-90"
+        src="/images/hero border.png"
+        alt="greenhaus"
+        fill
+        className="object-cover object-[center_-10px]"
+        priority
+      />
+      <Image
+          src="/images/botanical playground.png"
+          alt="playground"
+          width={328}
+          height={46}
+          className="absolute bottom-15 right-10 z-10"
+        />
+        <Image
+          src="/images/snail.png"
+          alt="snail"
+          width={0}
+          height={0}
+          sizes="100vw"
+          className="w-auto h-auto absolute bottom-1 right-1 z-10"
+        />
+
+      {/* LAYER 2: CENTERED CONTENT STACK */}
+      <div className="relative z-10 flex flex-col items-center justify-center min-h-[871px] gap-2">
+        
+        {/* TEXT + STARS OVERLAY GROUP */}
+        <div className="relative flex items-center justify-center">
+          <Image
+            src="/images/hero text + stars.png"
+            alt="Welcome"
+            width={661.13}
+            height={307.47}
+            
+            priority
+          />
+          
+        </div>
+
+        <Image
+          src="/images/cta.png"
+          alt="Cta"
+          width={300}
+          height={41}
+        />
+
+      </div>
+
+      {/* LAYER 3: ACORN SHORTCUT - absolute positioned */}
+      <div className="absolute z-20 left-[24px] top-[160px] md:left-[157px] md:top-[441px]">
+        <Image
+          src="/images/acorn.png"
+          alt="Acorn"
+          width={178}
+          height={212}
+          className="opacity-90"
+        />
+        <Image
+          src="/images/w95arrow.png"
+          alt="Arrow"
+          width={30}
+          height={28}
+          className="absolute bottom-11 left-9 translate-x-[10%] -translate-y-[10%]"
+        />
+        
+      </div>
+
+      {/* LAYER 4: LOGO - fixed to viewport */}
+      <Image
+        src="/images/logo.png"
+        alt="Logo"
+        width={142}
+        height={163}
+        className="fixed bottom-4 right-4 z-[100] mix-blend-exclusion invert pointer-events-none"
       />
 
-      {/* The Arrow (The "Shortcut" badge) */}
-      <Image
-        src="/images/w95arrow.png"
-        alt="Arrow"
-        width={30}
-        height={28}
-        className="
-            absolute 
-            bottom-11 left-9 
-            translate-x-[10%] -translate-y-[10%]
-            opacity-100
-        "
-      />  
-    </div>  
-
-       
-    <Image
-  src="/images/logo.png"
-  alt="Logo"
-  width={142.14}
-  height={163}
-  className="
-    fixed 
-    bottom-4 
-    right-4 
-    z-[100] 
-    opacity-100 
-    mix-blend-exclusion
-    invert
-    pointer-events-none
-  "
-/>
     </section>
-    
   );
 }
