@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>UCLA Botanical Club Test</title>
+    <link rel="stylesheet" href="./style.css">
+
+  </head>
+    
+  <body>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollToPlugin.min.js"></script>
+<script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+
+<link rel="preload" href="https://i.ibb.co/HDsyJ0K1/botclub-intro-animation-bg-Imgur.jpg" as="image">
+
+
+<!-- ════════ INTRO ANIMATION ════════ -->
+<div id="intro-overlay">
+  <!-- Replace src below with your imgur DIRECT link (see note in JS) -->
+  <img id="intro-bg" class="intro-bg-media" alt="" src="https://i.ibb.co/HDsyJ0K1/botclub-intro-animation-bg-Imgur.jpg" />
+  <div class="intro-content">
+    <div class="intro-dots-row">
+      <span class="intro-dot" id="dot-1">.</span>
+      <span class="intro-dot" id="dot-2">.</span>
+<span class="intro-flower" id="dot-3">
+  <span class="stem">i</span>
+  <span class="bloom-wrap"><img class="bloom" src="https://i.ibb.co/B27SrckN/intro-flower.png" alt="" /></span>
+</span>
+    </div>
+    <div class="intro-text" id="intro-text">Building Terrain</div>
+  </div>
+</div>
+
+<div id="page-content">
+
+<!-- ════════ HEADER ════════ -->
+<header>
+  <div class="header-inner">
+    <img id="club-text" class="header-logo" alt="UCLA Botanical Club" />
+    <nav>
+      <a class="glow-hover" href="#">Home</a>
+      <a class="glow-hover" href="#">Digital Archive</a>
+      <a class="glow-hover" href="#">Ministry</a>
+      <a class="retro-button" href="#">Join the Greenhaus!</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ─── FIXED GREEN GRADIENT ─── -->
+<img id="green-grad" class="green-grad-fixed" alt="" />
+
+<!-- ─── FIXED LOGO ─── -->
+<img id="logo-fixed" class="hero-logo-fixed" alt="Logo" />
+
+<!-- ════════ HEADER ════════ -->
+<!-- <header>
+  <div class="header-inner">
+    <img id="club-text" class="header-logo" alt="UCLA Botanical Club" />
+    <nav>
+      <a class="glow-hover" href="#">Home</a>
+      <a class="glow-hover" href="#">Digital Archive</a>
+      <a class="glow-hover" href="#">Ministry</a>
+      <a class="retro-button" href="#">Join the Greenhaus!</a>
+    </nav>
+  </div>
+</header> -->
+
+<!-- ════════ HERO ════════ -->
+<section id="hero">
+  <img id="hero-bg" class="hero-bg" alt="" />
+  <img id="hero-playground" class="hero-playground" alt="botanical playground" />
+  <img id="hero-snail" class="hero-snail" alt="snail" />
+
+  <!-- centered content -->
+  <div class="hero-center">
+    <div class="hero-text-group">
+      <img id="hero-title" class="hero-title" alt="Welcome" />
+      <img id="star-green"  class="star star-green"  alt="green star" />
+      <img id="star-pink"   class="star star-pink"   alt="pink star" />
+      <img id="star-yellow" class="star star-yellow" alt="yellow star" />
+    </div>
+    <img id="hero-cta" class="hero-cta" alt="CTA" />
+  </div>
+
+  <!-- desktop icons -->
+  <div class="desktop-icons" id="desktop-icons"></div>
+</section>
+
+<!-- ════════ MIDDLE WRAPPER ════════ -->
+<div class="middle-wrapper">
+  <img id="middle-bg" class="middle-bg" alt="" />
+
+  <!-- INTRO -->
+  <section id="intro">
+    <div class="intro-heading-wrap">
+      <img id="intro-heading" class="intro-heading" alt="new enthusiastic" />
+    </div>
+    <p>
+      Founded in 2023, the Botanical Club is a growing community of students passionate about plants, ecology,
+      and their connection to culture and justice. Our mission is to promote botanical research and outreach
+      at UCLA through hands-on projects.
+      <br /><br />
+      Current projects encompass regional biogeographic exhibits at Mathias Botanical Gardens, the cultivation
+      of an education greenhouse plant collection, herbarium studies, and the development of ethnobotanical
+      narratives in collaboration with academic and community partners.
+    </p>
+  </section>
+
+  <!-- DISCORD / LILY PADS -->
+  <section id="discord">
+    <img id="lilypads" class="lilypads-img" alt="lilypads" />
+  </section>
+
+  <!-- EVENTS -->
+  <section id="events">
+    <img id="carousel-title" class="carousel-title" alt="keep up" />
+  </section>
+
+  <!-- CIRCLE QUOTE -->
+  <section id="circle-quote">
+    <div class="circle-quote-wrap" id="circle-quote-wrap">
+      <img id="circle-ring" class="circle-ring" alt="ring" />
+      <img id="circle-plants" class="circle-plants" alt="plants quote" />
+    </div>
+  </section>
+
+  <!-- WANT MORE -->
+  <section id="want-more">
+    <img id="want-more-heading" class="want-more-heading" alt="want more" />
+    <div class="want-more-rect-wrap">
+      <img id="want-more-rect" class="want-more-rect" alt="" />
+      <div class="want-more-buttons" id="want-more-buttons"></div>
+    </div>
+  </section>
+
+</div><!-- /.middle-wrapper -->
+
+<!-- FOOTER -->
+<footer style="margin-top: 80px;">© 2026 UCLA Botanical Club</footer>
+
+<!-- bottom corners -->
+<div class="bottom-corners" style="height:0;">
+
+<!-- bottom corners -->
+<div class="bottom-corners" style="height:80px;">
+  <img id="corn-left"  class="corn-left"  alt="" />
+  <img id="corn-right" class="corn-right" alt="" />
+</div>
+  
+  </div><!-- /#page-content -->
+  
+  </div><!-- /#page-content -->
+    <script  src="./script.js"></script>
+
+  </body>
+  
+</html>
