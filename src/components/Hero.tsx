@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { FloatingStars } from "./FloatingStars";
 
 function SpinningStar({ src, alt, width, height, className }: {
   src: string; alt: string; width: number; height: number; className?: string;
@@ -96,31 +97,35 @@ export default function Hero() {
             priority
           />
 
-          {/* GREEN STAR - left of text */}
-          <SpinningStar
+          <FloatingStars 
+            id="green"
             src="/images/Star g.png"
             alt="green star"
             width={80}
             height={80}
             className="absolute -left-25 top-1/2 -translate-y-1/2"
+            originX={300}
+            originY={400}
           />
-
-          {/* PINK STAR - upper right */}
-          <SpinningStar
+          <FloatingStars
+            id="pink"
             src="/images/Star p.png"
             alt="pink star"
             width={100}
             height={100}
             className="absolute right-[180px] -top-16"
+            originX={700}
+            originY={300}
           />
-
-          {/* YELLOW STAR - upper right, above pink */}
-          <SpinningStar
+          <FloatingStars
+            id="yellow"
             src="/images/Star y.png"
             alt="yellow star"
             width={80}
             height={80}
             className="absolute -right-8 -top-2"
+            originX={900}
+            originY={350}
           />
         </div>
 

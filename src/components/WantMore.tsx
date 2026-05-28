@@ -4,7 +4,7 @@ import Image from "next/image";
 const buttons = [
   { img: "/images/instagram frog.png", label: "Instagram", sub: "@botanicalclubucla", href: "https://www.instagram.com/botanicalclubatucla?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" },
   { img: "/images/beee.png", label: "Discord", sub: "Botanical Club at UCLA", href: "https://discord.gg/Wd3Tk2ANNd" },
-  { img: "/images/purp.png", label: "Google Photos", sub: "Plants, plants, plants!", href: "https://photos.app.goo.gl/L5y5mxRH1Rkcs4MC6" },
+  { img: "/images/purp.png", label: "Google Photos", sub: "Plants, plants, plants!", href: "https://photos.app.goo.gl/KP5oPaSq3jbnYobf6" },
   { img: "/images/dfly.png", label: "Playground", sub: "Coming soon!", href: "#" },
 ];
 
