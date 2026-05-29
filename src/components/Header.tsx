@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function Header() {
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 h-[65px] bg-[var(--color-bg)]">
+    <header className="relative z-50 h-[65px] bg-[var(--color-bg)]">
       {/* justify-between handles the left/right alignment automatically */}
       <div className="mx-auto flex h-full max-w-full items-center justify-between px-6">
         
@@ -28,7 +28,7 @@ export default function Header() {
             Ministry
           </a>
           <a className="retro-button" href="https://discord.gg/Wd3Tk2ANNd" target="_blank" rel="noopener noreferrer">
-            Join the Greenhouse!
+            Join the Greenhaus!
           </a>
         </nav>
       </div>

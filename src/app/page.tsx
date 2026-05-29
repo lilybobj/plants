@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <>
       <Header />
-      <div className="pt-[65px]">
+      
         <Hero />
         <div className="relative">
           <div className="absolute left-1/2 -translate-x-1/2 w-[1012px] h-full -z-10">
@@ -35,7 +35,7 @@ export default function Home() {
           <Image src="/images/left corn.png" alt="" width={525.98} height={415} className="absolute bottom-0 left-0 z-10" />
           <Image src="/images/right corn.png" alt="" width={487} height={317.05} className="absolute bottom-0 right-0 z-10" />
         </div>
-      </div>
+     
       <Image
         src="/images/green grad.png"
         alt=""
