@@ -92,6 +92,7 @@ document.body.style.overflow = '';
 window.scrollTo(0, 0);
 lenis.scrollTo(0, { immediate: true, force: true });
 ScrollTrigger.refresh();
+setTimeout(readStarPositions, 100);
 }, { once: true });
 })();
 
@@ -163,35 +164,163 @@ wantMoreButtons.forEach(btn => {
   btnsEl.appendChild(a);
 });
 
-// ── Spinning stars (mouse velocity) ──
-const stars = [
-  document.getElementById("star-green"),
-  document.getElementById("star-pink"),
-  document.getElementById("star-yellow"),
+// ── Floating stars with launch physics ──
+const starEls = [
+  { el: document.getElementById("star-green"),  id: "green",  w: 80,  h: 80  },
+  { el: document.getElementById("star-pink"),   id: "pink",   w: 100, h: 100 },
+  { el: document.getElementById("star-yellow"), id: "yellow", w: 80,  h: 80  },
 ];
-const rotations  = [0, 0, 0];
-const velocities = [0, 0, 0];
+
+const GRAVITY     = 0.10;
+const FRICTION    = 0.995;
+const BOUNCE      = 0.80;
+const REPEL_RADIUS = 150;
+const REPEL_FORCE  = 6;
+
+// shared position registry for repulsion
+const starRegistry = {};
+
+// per-star state
+const starStates = {};
+starEls.forEach(({ el, id, w, h }) => {
+  starRegistry[id] = { x: 0, y: 0 };
+  starStates[id] = {
+    el, w, h,
+    originX: 0, originY: 0,
+    rotation: 0,
+    rotVel: 0,
+    launched: false,
+    x: 0, y: 0,
+    vx: 0, vy: 0,
+  };
+});
+
+// read positions after images have loaded and layout is settled
+function readStarPositions() {
+  let allReady = true;
+  starEls.forEach(({ el, id, w, h }) => {
+    const rect = el.getBoundingClientRect();
+    if (rect.width === 0) { allReady = false; return; }
+    const originX = rect.left + w / 2;
+    const originY = rect.top  + h / 2;
+    starRegistry[id] = { x: originX, y: originY };
+    Object.assign(starStates[id], { originX, originY, x: originX, y: originY });
+  });
+  if (!allReady) setTimeout(readStarPositions, 100); // retry until ready
+}
+
+window.addEventListener("load", () => readStarPositions());
+// also try immediately in case load already fired
+readStarPositions();
+
 let lastMouse = null;
+const recentSpeeds = [];
 
 window.addEventListener("mousemove", e => {
-  if (lastMouse) {
-    const dx = e.clientX - lastMouse.x;
-    const speed = Math.abs(dx);
-    const dir   = dx > 0 ? 1 : -1;
-    velocities.forEach((_, i) => { velocities[i] = dir * speed * 0.5; });
-  }
+  if (!lastMouse) { lastMouse = { x: e.clientX, y: e.clientY }; return; }
+
+const dx = e.clientX - lastMouse.x;
+  const dy = e.clientY - lastMouse.y;
+  const speed = Math.sqrt(dx * dx + dy * dy);
+  const dir   = dx > 0 ? 1 : -1;
+
+  // rolling average so trigger works across different polling rates
+  recentSpeeds.push(speed);
+  if (recentSpeeds.length > 5) recentSpeeds.shift();
+  const avgSpeed = recentSpeeds.reduce((a, b) => a + b, 0) / recentSpeeds.length;
+
+Object.values(starStates).forEach(star => {
+    if (star.dismissing) return;
+    star.rotVel = dir * speed * 0.5;
+
+    const starX = star.launched ? star.x : star.originX;
+    const starY = star.launched ? star.y : star.originY;
+    const dist  = Math.sqrt(Math.pow(e.clientX - starX, 2) + Math.pow(e.clientY - starY, 2));
+
+if ((speed > 25 || avgSpeed > 18) && dist < 220) {
+      const angle = Math.atan2(dy, dx);
+      star.vx = Math.cos(angle) * speed * 0.3;
+      star.vy = Math.sin(angle) * speed * 0.3;
+
+if (!star.launched) {
+        const rect = star.el.getBoundingClientRect();
+        if (rect.width === 0) return;
+        const trueX = rect.left + star.w / 2;
+        const trueY = rect.top  + star.h / 2;
+        const trueDist = Math.sqrt(
+          Math.pow(e.clientX - trueX, 2) +
+          Math.pow(e.clientY - trueY, 2)
+        );
+        if (trueDist > 220) return;
+
+        star.launched = true;
+        star.x = trueX;
+        star.y = trueY;
+        star.el.style.position  = "fixed";
+        star.el.style.left      = "0";
+        star.el.style.top       = "0";
+        star.el.style.zIndex    = "999";
+        star.el.style.translate = "none";
+      }
+    }
+  });
+
   lastMouse = { x: e.clientX, y: e.clientY };
 });
 
 (function animateStars() {
-  stars.forEach((star, i) => {
-    velocities[i] *= 0.95;
-    rotations[i]  += velocities[i];
-    star.style.transform = `rotate(${rotations[i]}deg)`;
-    if (star.classList.contains("star-green")) {
-      star.style.transform = `translateY(-50%) rotate(${rotations[i]}deg)`;
+  Object.entries(starStates).forEach(([id, star]) => {
+    // spin
+    star.rotVel  *= 0.95;
+    star.rotation += star.rotVel;
+
+if (star.launched && !star.dismissing) {
+      const floor = window.innerHeight - star.h - 30;
+
+      star.vy += GRAVITY;
+      star.vx *= FRICTION;
+      star.vy *= FRICTION;
+      star.x  += star.vx;
+      star.y  += star.vy;
+
+      // repel from other stars
+      Object.entries(starRegistry).forEach(([otherId, pos]) => {
+        if (otherId === id) return;
+        const ddx  = star.x - pos.x;
+        const ddy  = star.y - pos.y;
+        const dist = Math.sqrt(ddx * ddx + ddy * ddy);
+        if (dist < REPEL_RADIUS && dist > 0) {
+          const force = (REPEL_RADIUS - dist) / REPEL_RADIUS * REPEL_FORCE;
+          star.vx += (ddx / dist) * force;
+          star.vy += (ddy / dist) * force;
+        }
+      });
+
+      // walls
+      if (star.x <= 0)                          { star.x = 0;                          star.vx =  Math.abs(star.vx) * BOUNCE; }
+      if (star.x >= window.innerWidth - star.w) { star.x = window.innerWidth - star.w; star.vx = -Math.abs(star.vx) * BOUNCE; }
+
+      // floor / ceiling
+      if (star.y >= floor) {
+        star.y  = floor;
+        star.vy = -Math.abs(star.vy) * BOUNCE;
+        star.vx *= 0.90;
+        star.rotVel *= 0.90;
+        if (Math.abs(star.vy) < 0.5) star.vy = 0;
+      }
+      if (star.y <= 0) { star.y = 0; star.vy = Math.abs(star.vy) * BOUNCE; }
+
+      starRegistry[id] = { x: star.x, y: star.y };
+      star.el.style.transform = `translate(${star.x}px, ${star.y}px) rotate(${star.rotation}deg)`;
+
+    } else {
+      // still in place — just spin
+      let t = `rotate(${star.rotation}deg)`;
+      if (id === "green") t = `translateY(-50%) rotate(${star.rotation}deg)`;
+      star.el.style.transform = t;
     }
   });
+
   requestAnimationFrame(animateStars);
 })();
 
@@ -254,4 +383,100 @@ cornLeft.style.transform  = `translateY(${translateY}%)`;
 cornRight.style.transform = `translateY(${translateY}%)`;
 cornLeft.style.opacity  = 1;
 cornRight.style.opacity = 1;
+});
+
+// ── Fixed logo roll-in ──
+const logoFixed = document.getElementById("logo-fixed");
+
+ScrollTrigger.create({
+  trigger: "#hero",
+  start: "bottom 80%",
+  onEnter: () => {
+    gsap.fromTo(logoFixed,
+      { x: 120, opacity: 0, rotation: 360 },
+      { x: 0, opacity: 1, rotation: 0, duration: 0.7, ease: "power3.out" }
+    );
+  },
+  onLeaveBack: () => {
+    gsap.to(logoFixed, {
+      x: 120,
+      opacity: 0,
+      rotation: -360,
+      duration: 0.45,
+      ease: "power2.in",
+    });
+  },
+});
+
+// ── Star click: spin/fade out + return to origin ──
+starEls.forEach(({ el, id }) => {
+  el.addEventListener("click", () => {
+    const star = starStates[id];
+    if (!star.launched) return;
+
+    // freeze physics
+    star.vx = 0;
+    star.vy = 0;
+star.rotVel = 0;
+    star.dismissing = true;
+
+    let opacity = 1;
+    let scale = 1;
+    let phase = "expand"; // expand → spin+shrink
+    let expandFrames = 0;
+    const exitX = star.x;
+    const exitY = star.y;
+
+    function exitAnim() {
+      if (!star.dismissing) return;
+
+      if (phase === "expand") {
+        expandFrames++;
+        // quick bounce: overshoot to 1.5 then snap back to 1.2
+const t = expandFrames / 6;
+        scale = 1 + Math.sin(t * Math.PI) * 0.5;
+        if (expandFrames >= 6) {
+scale = 1.2;
+          phase = "shrink";
+          star.rotVel = 10;
+        }
+      } else {
+        star.rotation += star.rotVel;
+star.rotVel *= 1.08;
+        scale -= 0.04;
+        opacity -= 0.025;
+      }
+
+      el.style.transform = `translate(${exitX}px, ${exitY}px) rotate(${star.rotation}deg) scale(${scale})`;
+      el.style.opacity = Math.max(opacity, 0);
+
+      if (opacity > 0) {
+        requestAnimationFrame(exitAnim);
+      } else {
+        star.dismissing = false;
+        star.launched = false;
+        star.vx = 0;
+        star.vy = 0;
+        star.rotation = 0;
+        star.rotVel = 0;
+        starRegistry[id] = { x: star.originX, y: star.originY };
+
+        el.style.transition = "none";
+        el.style.position   = "";
+        el.style.left       = "";
+        el.style.top        = "";
+        el.style.zIndex     = "";
+        el.style.translate  = "";
+        el.style.transform  = "";
+        el.style.opacity    = "0";
+
+        requestAnimationFrame(() => {
+          el.style.transition = "opacity 0.5s ease";
+          el.style.opacity    = "1";
+          setTimeout(() => { el.style.transition = "none"; }, 500);
+        });
+      }
+    }
+    requestAnimationFrame(exitAnim);
+  });
 });
