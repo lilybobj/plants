@@ -18,6 +18,13 @@
 /* -------------------------------
    Global base styles
 -------------------------------- */
+html {
+  overscroll-behavior: none;
+}
+html.lenis { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto; }
+html::-webkit-scrollbar { display: none; }
+
 body {
   background-color: var(--color-bg);
   color: var(--color-text-body);
@@ -86,3 +93,142 @@ body {
   );
   border: 1px solid var(--color-panel-border);
 }
+
+/* -------------------------------
+   Want More buttons — hover glow
+-------------------------------- */
+.want-more-btn {
+  position: relative;
+}
+.want-more-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -60%) scale(0);
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(107,201,20,0.7) 0%, rgba(107,201,20,0) 70%);
+  transition: transform .3s ease, opacity .3s ease;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+.want-more-btn:hover::before {
+  transform: translate(-50%, -60%) scale(1);
+  opacity: 1;
+}
+.want-more-btn img {
+  position: relative;
+  z-index: 1;
+  transition: filter .3s ease;
+}
+.want-more-btn:hover img {
+  filter: drop-shadow(0 3px 0 #000);
+}
+
+/* ════════════════════════════════
+   INTRO ANIMATION OVERLAY
+════════════════════════════════ */
+#intro-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background-color: #0a1a08;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transform: translateY(0);
+  transition: transform 1.3s cubic-bezier(0.76, 0, 0.24, 1);
+  will-change: transform;
+}
+#intro-overlay.slide-out {
+  transform: translateY(-100vh);
+}
+.intro-bg-media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+.intro-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.intro-dots-row {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 22px;
+  font-family: var(--font-vcr), monospace;
+  font-size: 22px;
+  line-height: 1;
+  color: #6BC914;
+  min-height: 28px;
+  width: 220px;
+}
+.intro-dot {
+  display: inline-block;
+  opacity: 0;
+}
+.intro-dot.visible { opacity: 1; }
+.intro-flower {
+  position: relative;
+  display: inline-block;
+  font-family: var(--font-vcr), monospace;
+  font-size: 22px;
+  line-height: 1;
+  color: #6BC914;
+}
+.intro-flower .stem {
+  display: inline-block;
+  transform: scale(0);
+  transform-origin: 50% 100%;
+  transition: transform 0.4s cubic-bezier(0.34, 1.7, 0.5, 1);
+}
+.intro-flower.stem-in .stem,
+.intro-flower.bloomed .stem {
+  transform: scale(1);
+}
+.intro-flower .bloom-wrap {
+  position: absolute;
+  left: 50%;
+  bottom: 15px;
+  transform: translateX(-50%) scale(0);
+  transform-origin: 50% 100%;
+  transition: transform 0.35s cubic-bezier(0.34, 1.7, 0.5, 1);
+  pointer-events: none;
+}
+.intro-flower.bloomed .bloom-wrap {
+  transform: translateX(-50%) scale(1);
+}
+.intro-flower .bloom {
+  display: block;
+  width: 25px;
+  height: 25px;
+  object-fit: contain;
+  max-width: none;
+}
+.intro-text {
+  font-family: var(--font-windows-bold), var(--font-vcr), monospace;
+  font-weight: 700;
+  font-size: 26px;
+  color: #4a9d2c;
+  letter-spacing: 1px;
+  opacity: 0;
+  transition: opacity 0.4s;
+  margin-top: 4px;
+}
+.intro-text.visible { opacity: 1; }
+
+/* page content stays put; only the overlay animates up and away.
+   body scroll is locked via JS while the overlay is active. */

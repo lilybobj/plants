@@ -52,22 +52,33 @@ const desktopIcons = [
   { src: "/images/acorn.png", label: "Greenhouse", href: "#" },
   { src: "/images/bfly.png", label: "Archive", href: "#" },
   { src: "/images/flower.png", label: "Events", href: "#" },
-  { src: "/images/heart.png", label: "Ministry", href: "#" },
+  { src: "/images/heart.png", label: "Ministry", href: "/ministry" },
   { src: "/images/key.png", label: "Join Us", href: "#" },
 ];
 
 export default function Hero() {
   return (
-    <section className="relative w-full min-h-[858px] bg-[var(--color-bg2)]">
+    <section id="hero" className="relative w-full mt-[65px] h-[calc(100vh-65px)] overflow-hidden bg-[var(--color-bg2)]">
 
-      {/* LAYER 1: HERO BORDER */}
+      {/* LAYER 0: CHECKERBOARD BACKDROP */}
       <Image
-        src="/images/hero border.png"
-        alt="greenhaus"
+        src="/images/hero checkerboard.png"
+        alt=""
         fill
-        className="object-cover object-[center_-10px]"
+        className="object-fill z-0"
         priority
       />
+
+      {/* LAYER 1: INSET HERO IMAGE (leaves checkerboard as a border) */}
+      <div className="absolute z-[1]" style={{ top: 23, bottom: 23, left: 15, right: 15 }}>
+        <Image
+          src="/images/hero image.png"
+          alt="greenhaus"
+          fill
+          className="object-fill"
+          priority
+        />
+      </div>
       <Image
         src="/images/botanical playground.png"
         alt="playground"
@@ -81,19 +92,19 @@ export default function Hero() {
         width={0}
         height={0}
         sizes="100vw"
-        className="w-auto h-auto absolute bottom-1 right-1 z-10"
+        className="w-auto h-auto max-w-[120px] absolute bottom-1 right-1 z-10"
       />
 
       {/* LAYER 2: CENTERED CONTENT STACK */}
-      <div className="relative z-10 flex flex-col items-center justify-center min-h-[871px] gap-2">
+      <div className="relative z-10 flex flex-col items-center justify-center h-full gap-2">
 
         {/* TEXT + STARS OVERLAY GROUP */}
         <div className="relative flex items-center justify-center">
           <Image
             src="/images/hero text w texture.png"
             alt="Welcome"
-            width={661.13}
-            height={307.47}
+            width={560}
+            height={260.42}
             priority
           />
 
@@ -137,41 +148,35 @@ export default function Hero() {
         />
       </div>
 
-     {/* LAYER 3: DESKTOP ICONS - vertical left column */}
-      <div className="absolute z-20 left-[24px] top-[160px] md:left-[60px] md:top-[70px] flex flex-col gap-6">
+     {/* LAYER 3: DESKTOP ICONS - vertical left column, centered within the border margin */}
+      <div
+        className="absolute z-20 left-[15px] md:left-[25px] flex flex-col justify-center gap-[10px] pb-[40px]"
+        style={{ top: 23, bottom: 23 }}
+      >
         {desktopIcons.map((icon) => (
           <a
             key={icon.label}
-  href={icon.href}
-  className="flex flex-col items-center gap-0 w-[80px] cursor-pointer hover:brightness-130 hover:contrast-120 active:brightness-75 active:scale-95 transition-all"
->
-<div className="relative w-[120px] h-[120px]">
-  <Image
-    src={icon.src}
-    alt={icon.label}
-    fill
-    className="object-contain drop-shadow-lg"
-  />
-
-              
-            </div>
-            <span className="windows-font text-[16px] text-center text-[var(--color-text-main)] leading-tight px-1 -mt-5"
-              style={{ textShadow: "1px 1px 2px black" }}>
+            href={icon.href}
+            className="flex flex-col items-center cursor-pointer transition-all hover:brightness-130 hover:contrast-120 active:brightness-75 active:scale-95"
+            style={{ width: "clamp(60px, 7vw, 100px)" }}
+          >
+            <Image
+              src={icon.src}
+              alt={icon.label}
+              width={100}
+              height={100}
+              className="object-contain drop-shadow-lg"
+              style={{ width: "clamp(60px, 7vw, 100px)", height: "clamp(60px, 7vw, 100px)" }}
+            />
+            <span
+              className="windows-font text-[16px] text-center text-white leading-tight px-1 -mt-1"
+              style={{ textShadow: "1px 1px 2px black" }}
+            >
               {icon.label}
             </span>
           </a>
         ))}
       </div>
-
-
-      {/* LAYER 4: LOGO */}
-      <Image
-        src="/images/logo.png"
-        alt="Logo"
-        width={142}
-        height={163}
-        className="fixed bottom-4 right-4 z-[100] mix-blend-exclusion invert pointer-events-none"
-      />
 
     </section>
   );

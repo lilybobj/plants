@@ -21,11 +21,11 @@ export default function WantMore() {
       href={btn.href}
       target="_blank"
       rel="noopener noreferrer"
-      className="flex flex-col items-center gap-1 hover:scale-105 hover:brightness-130 hover:contrast-120 active:brightness-75 active:scale-95 transition-all cursor-pointer"
+      className="want-more-btn flex flex-col items-center gap-1 hover:scale-105 active:scale-95 transition-all cursor-pointer"
     >
-      <Image src={btn.img} alt={btn.label} width={0} height={0} sizes="100vw" className="w-auto h-[200px] object-contain" />
-      <span className="windows-font text-[25px] text-[#6BC914]">{btn.label}</span>
-<span className="font-bold text-[16px] text-[#2B8124]">{btn.sub}</span>
+      <Image src={btn.img} alt={btn.label} width={0} height={0} sizes="100vw" className="w-auto h-[160px] object-contain" />
+      <span className="windows-font text-[20px] text-[#6BC914]">{btn.label}</span>
+<span className="font-bold text-[14px] text-[#2B8124]">{btn.sub}</span>
     </a>
   ))}
 

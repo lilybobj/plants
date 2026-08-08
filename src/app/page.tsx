@@ -7,13 +7,15 @@ import CircleQuote from "../components/CircleQuote";
 import WantMore from "../components/WantMore";
 import Footer from "../components/Footer";
 import Image from "next/image";
-import { FloatingStars } from "../components/FloatingStars";
+import IntroOverlay from "../components/IntroOverlay";
+import FixedLogo from "../components/FixedLogo";
+import BottomCorners from "../components/BottomCorners";
 
 export default function Home() {
   return (
-    <>
+    <IntroOverlay>
       <Header />
-      
+
         <Hero />
         <div className="relative">
           <div className="absolute left-1/2 -translate-x-1/2 w-[1012px] h-full -z-10">
@@ -31,11 +33,10 @@ export default function Home() {
           <WantMore />
           <Footer />
         </div>
-        <div className="relative w-full">
-          <Image src="/images/left corn.png" alt="" width={525.98} height={415} className="absolute bottom-0 left-0 z-10" />
-          <Image src="/images/right corn.png" alt="" width={487} height={317.05} className="absolute bottom-0 right-0 z-10" />
-        </div>
-     
+
+      <FixedLogo />
+      <BottomCorners />
+
       <Image
         src="/images/green grad.png"
         alt=""
@@ -43,6 +44,6 @@ export default function Home() {
         height={785}
         className="fixed bottom-0 left-0 w-full h-[785px] object-cover -z-10 pointer-events-none"
       />
-    </>
+    </IntroOverlay>
   );
 }

@@ -2,10 +2,10 @@ import Image from "next/image";
 
 export default function Header() {
   return (
-    <header className="relative z-50 h-[65px] bg-[var(--color-bg)]">
+    <header className="fixed top-0 left-0 w-full z-50 h-[65px] bg-[var(--color-bg)]">
       {/* justify-between handles the left/right alignment automatically */}
       <div className="mx-auto flex h-full max-w-full items-center justify-between px-6">
-        
+
         {/* LEFT ALIGNED */}
        <Image
   src="/images/club text.png"
@@ -17,7 +17,7 @@ export default function Header() {
 
 
         {/* RIGHT ALIGNED */}
-        <nav className="flex items-center gap-6 windows-font text-[16pt] text-[var(--color-text-main)]">
+        <nav className="flex items-center gap-8 windows-font text-[13pt] text-[var(--color-text-main)]">
           <a className="glow-hover transition-all hover:text-[var(--color-text-hover)]" href="/">
             Home
           </a>

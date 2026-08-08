@@ -10,6 +10,12 @@ const windowsBold = localFont({
   display: "swap",
 });
 
+const vcr = localFont({
+  src: "./fonts/VCR_OSD_MONO_1.001.ttf",
+  variable: "--font-vcr",
+  display: "swap",
+});
+
 const afacad = Afacad({ subsets: ["latin"] });
 
 const geistSans = Geist({
@@ -36,7 +42,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={windowsBold.variable}>
+    <html lang="en" className={`${windowsBold.variable} ${vcr.variable}`}>
       <body className={afacad.className}>
         {children}
       </body>
