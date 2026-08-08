@@ -4,7 +4,7 @@ export default function Intro() {
   return (
     <section className="mx-auto mt-16 max-w-3xl px-6 text-left pt-25">
       
-       <div className="flex flex-col items-center gap-3">
+       <div className="flex flex-col items-center gap-3 mb-6">
     <Image
       src="/images/new enthus.png"
       alt="new"
@@ -12,7 +12,7 @@ export default function Intro() {
       height={103.35}
       priority
     />
-    
+
   </div>
 
         <p className="text-xl">

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Header() {
   return (
@@ -18,15 +19,15 @@ export default function Header() {
 
         {/* RIGHT ALIGNED */}
         <nav className="flex items-center gap-8 windows-font text-[13pt] text-[var(--color-text-main)]">
-          <a className="glow-hover transition-all hover:text-[var(--color-text-hover)]" href="/">
+          <Link className="glow-hover transition-all hover:text-[var(--color-text-hover)]" href="/">
             Home
-          </a>
+          </Link>
           <a className="glow-hover transition-all hover:text-[var(--color-text-hover)]" href="#">
             Digital Archive
           </a>
-          <a className="glow-hover transition-all hover:text-[var(--color-text-hover)]" href="/ministry">
+          <Link className="glow-hover transition-all hover:text-[var(--color-text-hover)]" href="/ministry">
             Ministry
-          </a>
+          </Link>
           <a className="retro-button" href="https://discord.gg/Wd3Tk2ANNd" target="_blank" rel="noopener noreferrer">
             Join the Greenhaus!
           </a>

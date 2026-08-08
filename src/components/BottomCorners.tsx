@@ -13,8 +13,8 @@ export default function BottomCorners() {
 
     const tick = () => {
       const scrollY = lenis.scroll;
-      const maxScroll = document.body.scrollHeight - window.innerHeight;
-      const progress = Math.max(0, (scrollY - maxScroll * 0.85) / (maxScroll * 0.15));
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = Math.min(1, Math.max(0, (scrollY - maxScroll * 0.85) / (maxScroll * 0.15)));
       const translateY = 100 - progress * 80;
       if (leftRef.current) {
         leftRef.current.style.transform = `translateY(${translateY}%)`;
@@ -39,7 +39,7 @@ export default function BottomCorners() {
         width={525.98}
         height={415}
         className="fixed bottom-0 left-0 z-10 pointer-events-none"
-        style={{ transform: "translateY(200%)", opacity: 0 }}
+        style={{ width: "clamp(200px, 36vw, 525.98px)", height: "auto", transform: "translateY(200%)", opacity: 0 }}
       />
       <Image
         ref={rightRef}
@@ -48,7 +48,7 @@ export default function BottomCorners() {
         width={487}
         height={317.05}
         className="fixed bottom-0 right-0 z-10 pointer-events-none"
-        style={{ transform: "translateY(200%)", opacity: 0 }}
+        style={{ width: "clamp(185px, 34vw, 487px)", height: "auto", transform: "translateY(200%)", opacity: 0 }}
       />
     </>
   );

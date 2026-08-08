@@ -10,8 +10,13 @@ const CRITICAL_IMAGES = [
   "acorn.png", "bfly.png", "flower.png", "heart.png", "key.png", "middle margin.png",
 ];
 
+// Module-level (not sessionStorage): resets on an actual page reload since the
+// JS module re-executes from scratch, but survives client-side navigation
+// between routes since the module stays loaded in memory the whole time.
+let introPlayedThisPageLoad = false;
+
 export default function IntroOverlay({ children }: { children: React.ReactNode }) {
-  const [active, setActive] = useState(true);
+  const [active, setActive] = useState(() => !introPlayedThisPageLoad);
   const [slideOut, setSlideOut] = useState(false);
   const [textVisible, setTextVisible] = useState(false);
   const [dot1, setDot1] = useState(false);
@@ -21,6 +26,8 @@ export default function IntroOverlay({ children }: { children: React.ReactNode }
   const bloomRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
+    if (!active) return;
+    introPlayedThisPageLoad = true;
     document.body.classList.add("intro-active");
     document.body.style.overflow = "hidden";
 
@@ -56,17 +63,17 @@ export default function IntroOverlay({ children }: { children: React.ReactNode }
       }, 2150),
     ];
 
-    const minSequenceTime = new Promise<void>(r => setTimeout(r, 2800));
-    const maxWait = new Promise<void>(r => setTimeout(r, 4000));
+    const minSequenceTime = new Promise<void>(r => timers.push(setTimeout(r, 2800)));
+    const maxWait = new Promise<void>(r => timers.push(setTimeout(r, 4000)));
 
     Promise.all([minSequenceTime, Promise.race([preloadDone, maxWait])]).then(() => {
       setSlideOut(true);
     });
 
     return () => timers.forEach(clearTimeout);
-  }, []);
+  }, [active]);
 
-  const handleTransitionEnd = (e: React.TransitionEvent<HTMLDivElement>) => {
+  const handlePageContentTransitionEnd = (e: React.TransitionEvent<HTMLDivElement>) => {
     if (e.target !== e.currentTarget || !slideOut) return;
     setActive(false);
     document.body.classList.remove("intro-active");
@@ -80,11 +87,7 @@ export default function IntroOverlay({ children }: { children: React.ReactNode }
   return (
     <>
       {active && (
-        <div
-          id="intro-overlay"
-          className={slideOut ? "slide-out" : ""}
-          onTransitionEnd={handleTransitionEnd}
-        >
+        <div id="intro-overlay" className={slideOut ? "slide-out" : ""}>
           <Image
             src="/images/intro bg.jpg"
             alt=""
@@ -114,7 +117,13 @@ export default function IntroOverlay({ children }: { children: React.ReactNode }
           </div>
         </div>
       )}
-      {children}
+      <div
+        id="page-content"
+        className={slideOut ? "slide-in" : ""}
+        onTransitionEnd={handlePageContentTransitionEnd}
+      >
+        {children}
+      </div>
     </>
   );
 }

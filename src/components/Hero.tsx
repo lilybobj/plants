@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { FloatingStars } from "./FloatingStars";
 
@@ -49,7 +50,7 @@ function SpinningStar({ src, alt, width, height, className }: {
   );
 }
 const desktopIcons = [
-  { src: "/images/acorn.png", label: "Greenhouse", href: "#" },
+  { src: "/images/acorn.png", label: "Greenhaus", href: "#" },
   { src: "/images/bfly.png", label: "Archive", href: "#" },
   { src: "/images/flower.png", label: "Events", href: "#" },
   { src: "/images/heart.png", label: "Ministry", href: "/ministry" },
@@ -154,7 +155,7 @@ export default function Hero() {
         style={{ top: 23, bottom: 23 }}
       >
         {desktopIcons.map((icon) => (
-          <a
+          <Link
             key={icon.label}
             href={icon.href}
             className="flex flex-col items-center cursor-pointer transition-all hover:brightness-130 hover:contrast-120 active:brightness-75 active:scale-95"
@@ -174,7 +175,7 @@ export default function Hero() {
             >
               {icon.label}
             </span>
-          </a>
+          </Link>
         ))}
       </div>
 

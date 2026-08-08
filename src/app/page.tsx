@@ -17,7 +17,7 @@ export default function Home() {
       <Header />
 
         <Hero />
-        <div className="relative">
+        <div className="relative pb-[30px]">
           <div className="absolute left-1/2 -translate-x-1/2 w-[1012px] h-full -z-10">
             <Image
               src="/images/middle margin.png"
@@ -31,8 +31,8 @@ export default function Home() {
           <Events />
           <CircleQuote />
           <WantMore />
-          <Footer />
         </div>
+      <Footer />
 
       <FixedLogo />
       <BottomCorners />

@@ -230,5 +230,19 @@ body {
 }
 .intro-text.visible { opacity: 1; }
 
-/* page content stays put; only the overlay animates up and away.
-   body scroll is locked via JS while the overlay is active. */
+/* page wrapper — fixed during intro so it can slide up into place
+   in sync with the overlay sliding away (the "reel" effect) */
+body.intro-active {
+  overflow: hidden;
+}
+body.intro-active #page-content {
+  position: fixed;
+  top: 100vh;
+  left: 0;
+  width: 100%;
+  transition: top 1.3s cubic-bezier(0.76, 0, 0.24, 1);
+  will-change: top;
+}
+body.intro-active #page-content.slide-in {
+  top: 0;
+}
