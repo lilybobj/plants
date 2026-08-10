@@ -31,7 +31,7 @@ export default function BottomCorners() {
   }, []);
 
   return (
-    <>
+    <div style={{ height: 80 }}>
       <Image
         ref={leftRef}
         src="/images/left corn.png"
@@ -50,6 +50,6 @@ export default function BottomCorners() {
         className="fixed bottom-0 right-0 z-10 pointer-events-none"
         style={{ width: "clamp(185px, 34vw, 487px)", height: "auto", transform: "translateY(200%)", opacity: 0 }}
       />
-    </>
+    </div>
   );
 }
