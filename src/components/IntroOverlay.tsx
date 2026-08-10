@@ -37,7 +37,7 @@ export default function IntroOverlay({ children }: { children: React.ReactNode }
         const img = new window.Image();
         img.onload = () => resolve();
         img.onerror = () => resolve();
-        img.src = "/images/" + encodeURIComponent(name);
+        img.src = (process.env.NEXT_PUBLIC_BASE_PATH || "") + "/images/" + encodeURIComponent(name);
       }))
     );
 
