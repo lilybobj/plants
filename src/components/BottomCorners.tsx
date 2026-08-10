@@ -15,7 +15,7 @@ export default function BottomCorners() {
       const scrollY = lenis.scroll;
       const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
       const progress = Math.min(1, Math.max(0, (scrollY - maxScroll * 0.85) / (maxScroll * 0.15)));
-      const translateY = 100 - progress * 80;
+      const translateY = 100 - progress * 100;
       if (leftRef.current) {
         leftRef.current.style.transform = `translateY(${translateY}%)`;
         leftRef.current.style.opacity = "1";
