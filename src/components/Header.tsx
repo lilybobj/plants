@@ -1,9 +1,12 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
+import { useIntroActive } from "../lib/introActive";
 
 export default function Header() {
+  const introActive = useIntroActive();
   return (
-    <header className="fixed top-0 left-0 w-full z-50 h-[65px] bg-[var(--color-bg)]">
+    <header className={`${introActive ? "relative" : "fixed top-0"} left-0 w-full z-50 h-[65px] bg-[var(--color-bg)]`}>
       {/* justify-between handles the left/right alignment automatically */}
       <div className="mx-auto flex h-full max-w-full items-center justify-between px-6">
 

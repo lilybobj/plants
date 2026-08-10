@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { getOrCreateLenis, ScrollTrigger } from "../lib/scroll";
+import { IntroActiveContext } from "../lib/introActive";
 
 const CRITICAL_IMAGES = [
   "green grad.png", "logo.png", "club text.png", "hero checkerboard.png",
@@ -85,7 +86,7 @@ export default function IntroOverlay({ children }: { children: React.ReactNode }
   };
 
   return (
-    <>
+    <IntroActiveContext.Provider value={active}>
       {active && (
         <div id="intro-overlay" className={slideOut ? "slide-out" : ""}>
           <Image
@@ -124,6 +125,6 @@ export default function IntroOverlay({ children }: { children: React.ReactNode }
       >
         {children}
       </div>
-    </>
+    </IntroActiveContext.Provider>
   );
 }

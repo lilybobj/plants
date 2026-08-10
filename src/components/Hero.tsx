@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { FloatingStars } from "./FloatingStars";
+import { useIntroActive } from "../lib/introActive";
 
 function SpinningStar({ src, alt, width, height, className }: {
   src: string; alt: string; width: number; height: number; className?: string;
@@ -58,8 +59,9 @@ const desktopIcons = [
 ];
 
 export default function Hero() {
+  const introActive = useIntroActive();
   return (
-    <section id="hero" className="relative w-full mt-[65px] h-[calc(100vh-65px)] overflow-hidden bg-[var(--color-bg2)]">
+    <section id="hero" className={`relative w-full ${introActive ? "mt-0" : "mt-[65px]"} h-[calc(100vh-65px)] overflow-hidden bg-[var(--color-bg2)]`}>
 
       {/* LAYER 0: CHECKERBOARD BACKDROP */}
       <Image
